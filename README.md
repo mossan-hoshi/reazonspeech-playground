@@ -1,2 +1,57 @@
-# reazonspeech-playground
- reazonspeech( https://research.reazon.jp/blog/2024-02-14-ReazonSpeech.html )音声認識モデルプレイグラウンド
+# ReazonSpeech Playground
+
+ReazonSpeechの音声認識モデルを気軽に使えるようにするためのプレイグラウンドリポジトリです。
+本リポジトリは**仕様駆動開発**（Specification Driven Development）を採用しており、このREADMEが開発の起点となります。
+
+## 1. 目的
+**「ReazonSpeechの音声認識モデルを気軽に使えるようにする」**
+
+- 複雑なセットアップなしに、スクリプト一つで音声ファイルから文字起こしができる環境を提供する。
+- 実験的な機能を試す場（Playground）とする。
+
+## 2. 要件
+- **コア機能**:
+    - 指定した音声ファイル（wav, mp3, m4a等）を入力として受け取る。
+    - ReazonSpeechモデルを使用して文字起こしを行う。
+    - 結果をテキストファイルとして出力する。
+- **使いやすさ**:
+    - コマンドライン引数でファイルを指定するだけのシンプルなインターフェース。
+
+## 3. 技術要素
+*(開発進行に伴い確定・更新する)*
+
+- **言語**: Python 3.10+ (推奨)
+- **ライブラリ**:
+    - `reazonspeech` (Core library)
+    - `nemo_toolkit` (Backend)
+    - `torch` (DL framework)
+    - `librosa` / `soundfile` (Audio processing)
+- **モデル**: `reazonspeech-nemo-v2` (Default)
+- **環境**: CPU / GPU (CUDA) 自動判別
+
+## 4. 開発ポリシー
+本プロジェクトは**仕様駆動開発**で行います。
+
+1.  **README駆動**: 新機能や変更はまずこのREADMEの「開発項目表」に定義する。
+2.  **ステータス管理**: 開発項目表の進捗列（✅/🔳）でステータスを管理する。
+3.  **完了条件**: 各項目の「完了条件」を満たした時点で完了とする。
+
+## 5. 開発項目表
+
+| ID | 開発項目名 | 概要 (開発方法、留意点など) | 完了条件 | 進捗 |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | **環境構築** | 必要なライブラリをまとめた `requirements.txt` または `pyproject.toml` を作成する。<br>ReazonSpeechが動作する最小構成を定義。 | `pip install -r requirements.txt` で環境が再現できること。 | 🔳 |
+| 2 | **基本文字起こしスクリプト** | 音声ファイルパスを受け取り、標準出力またはファイルにテキストを出力するPythonスクリプトを作成する。<br>例: `python transcribe.py input.wav` | 指定した音声ファイルが正しく文字起こしされ、テキストとして確認できること。 | 🔳 |
+| 3 | **GPUサポート確認** | CUDAが利用可能な場合にGPUを使用し、そうでない場合はCPUを使用するロジックを実装する。 | GPU環境で高速に動作し、CPU環境でもエラーなく動作すること。 | 🔳 |
+| 4 | **出力フォーマット拡充** | テキストファイル(.txt)以外の出力（SRT字幕形式、JSONメタデータ付き等）をサポートする。 | オプション指定でSRT/JSONが出力されること。 | 🔳 |
+
+## 6. 開発履歴
+
+### [2025-11-29] README作成
+- **概要**: 仕様駆動開発のベースとなるREADMEを作成。
+- **知見・課題**:
+    - `reazonspeech-nemo-v2` は `nemo_toolkit` をバックエンドとして使用するため、依存関係に注意が必要。
+    - Hugging Faceのモデルカードを参照し、推奨構成を確認した。
+
+---
+*This README is a living document.*
